@@ -5,3 +5,5 @@
 .idea/Spotify-Song-Suggester.iml
 .idea/vcs.xml
 .idea/workspace.xml
+*.csv
+*.json
