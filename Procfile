@@ -1,3 +1,3 @@
-web: gunicorn SPOTIFY-SONG-SUGGESTER:app -t 120
+web: gunicorn spotify:app -t 120
 
 
