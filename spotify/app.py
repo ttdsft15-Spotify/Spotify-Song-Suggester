@@ -1,6 +1,6 @@
 from flask import Flask, redirect, render_template, request
 from flask_sqlalchemy import SQLAlchemy
-
+# TODO import the model
 
 def create_app():
 
@@ -19,13 +19,23 @@ def create_app():
     @app.route("/suggest", methods=['POST', 'GET'])
     def suggest():
         recommendations = []
-        print(request.form['songs'])
+        song_selected= request.form['songs']        
+        recommendations = make_recommendations(song_selected)
+
+        return render_template("index.html", recommendations=recommendations, song=song_selected)
+
+
+    """This function will call the model and make predictions"""
+    def make_recommendations(song):
+        
+        # TODO - Use model.predict(song) 
+        
         recommendations = [
             "ABSD",
             "ASDGF",
             "ThFGHSDFGADFG",
             "rftyhertgadfg"
         ]
-        return render_template("index.html", recommendations=recommendations)
+        return recommendations
 
     return app
