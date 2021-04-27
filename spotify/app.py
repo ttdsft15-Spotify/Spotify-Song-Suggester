@@ -52,7 +52,8 @@ def create_app():
         df = pd.read_csv('tracks.csv', parse_dates=['release_date'])
         df.dropna(inplace=True)
 
-        song_row = df[(df['name'] == song_name)]
+        song_row = df[(df.index == int(song_name))]
+        print(type(song_row))
         song_row = song_row.drop(columns= ['id', 'name', 'artists', 'id_artists', 'release_date'])
         
         # Loading and running model
