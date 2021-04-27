@@ -13,7 +13,6 @@ flask = "*"
 flask-sqlalchemy = "*"
 requests = "*"
 gunicorn = "*"
-pandas = "*"
 joblib = "*"
 
 [dev-packages]
