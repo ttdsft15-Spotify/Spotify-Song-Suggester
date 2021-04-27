@@ -8,9 +8,11 @@ data/data_by_artist_o.csv
 .idea/Spotify-Song-Suggester.iml
 .idea/vcs.xml
 .idea/workspace.xml
+*.csv
+*.json
+data/NearestNeighborModel
 data/data_by_genres_o.csv
 data/data_by_year_o.csv
 data/data_o.csv
 data/dict_artists.json
-data/NearestNeighborModel
 data/tracks.csv

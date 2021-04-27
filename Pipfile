@@ -4,13 +4,17 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
+pandas = "*"
+notebook = "*"
+tensorflow = "*"
+sklearn = "*"
+spacy = "*"
 flask = "*"
 flask-sqlalchemy = "*"
 requests = "*"
 gunicorn = "*"
 pandas = "*"
 joblib = "*"
-sklearn = "*"
 
 [dev-packages]
 
