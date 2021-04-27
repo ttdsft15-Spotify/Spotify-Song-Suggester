@@ -9,6 +9,12 @@ notebook = "*"
 tensorflow = "*"
 sklearn = "*"
 spacy = "*"
+flask = "*"
+flask-sqlalchemy = "*"
+requests = "*"
+gunicorn = "*"
+pandas = "*"
+joblib = "*"
 
 [dev-packages]
 

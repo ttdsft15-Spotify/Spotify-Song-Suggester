@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Spotify Recommendation</title>
+        <link rel="stylesheet" href="https://unpkg.com/picnic" />
+    </head>
+    <body>
+        <nav>
+            <div class="menu">
+                <a href="/" class="button warning">Home</a>
+                <a href="/reset" class="button danger">Reset</a>
+            </div>
+        </nav>
+        <div style="padding: 3em 1em;">
+            <h1>Spotify Song Recommendation Engine</h1>
+            <article class="flex one">
+                {% block content %}
+                <form action="/suggest" method="POST">
+                    <label for="songs">Choose a Song:</label>
+                    <select name="songs" id="songs">
+                      <option value="Imagine">Imagine</option>
+                      <option value="Satisfaction">Satisfaction</option>
+                      <option value="Good Vibrations">Good Vibrations</option>
+                      <option value="Smells Like Teen Spirit">Smells Like Teen Spirit</option>
+                      <option value="Like a Rolling Stone">Like a Rolling Stone</option>
+                      <option value="Respect">Respect</option>
+                      <option value="My Generation">My Generation</option>
+                      <option value="Hound Dog">Hound Dog</option>
+                      <option value="Born to Run">Born to Run</option>
+                      <option value="Stairway to Heaven">Stairway to Heaven</option>
+                    </select>
+                    <br><br>
+                    <input type="submit" value="Recommend similar songs">
+                  </form>
+
+                {% endblock %}
+            </article>
+    
+            <article>
+                <h3>You selected - {{ song }}</h3>
+                {% for recommend in recommendations %}
+                <p>{{ recommend }}</p>
+                {% endfor %}
+            </article>
+        </div>
+    </body>
+</html>

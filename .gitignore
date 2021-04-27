@@ -1,6 +1,9 @@
-
-.idea/inspectionProfiles/profiles_settings.xml
+.env
+__MACOSX/
+data/artists.csv
+data/data_by_artist_o.csv
 .idea/misc.xml
+.idea/inspectionProfiles/profiles_settings.xml
 .idea/modules.xml
 .idea/Spotify-Song-Suggester.iml
 .idea/vcs.xml
@@ -8,4 +11,8 @@
 *.csv
 *.json
 data/NearestNeighborModel
-python_notebooks/NearestNeighborsModel.ipynb
+data/data_by_genres_o.csv
+data/data_by_year_o.csv
+data/data_o.csv
+data/dict_artists.json
+data/tracks.csv
