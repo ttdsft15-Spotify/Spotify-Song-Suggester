@@ -17,6 +17,7 @@ joblib = "*"
 gensim = "*"
 pyldavis = "*"
 matplotlib = "*"
+numpy = "==1.19.2"
 
 [dev-packages]
 
