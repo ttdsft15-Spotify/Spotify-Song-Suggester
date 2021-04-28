@@ -17,29 +17,29 @@
             <h1>Spotify Song Recommendation Engine</h1>
             <article class="flex one">
                 {% block content %}
+
                 <form action="/suggest" method="POST">
                     <label for="songs">Choose a Song:</label>
                     <select name="songs" id="songs">
-                      <option value="80723">Imagine</option>
-                      <option value="Satisfaction">Satisfaction</option>
-                      <option value="Good Vibrations">Good Vibrations</option>
-                      <option value="Smells Like Teen Spirit">Smells Like Teen Spirit</option>
-                      <option value="Like a Rolling Stone">Like a Rolling Stone</option>
-                      <option value="Respect">Respect</option>
-                      <option value="My Generation">My Generation</option>
-                      <option value="Hound Dog">Hound Dog</option>
-                      <option value="Born to Run">Born to Run</option>
-                      <option value="Stairway to Heaven">Stairway to Heaven</option>
+                        <option value="44964">Stairway to Heaven (Led Zeppelin)</option>
+                        <option value="80723">Imagine (John Lennon)</option>
+                        <option value="40502">Respect (Aretha Franklin)</option>
+                        <option value="245052">Good Vibrations (The Beach Boys)</option>
+                        <option value="38502">Like a Rolling Stone (Bob Dylan)</option>
+                        <option value="38817">My Generation (The Who)</option>
+                        <option value="441561">Born to Run (Bruce Springsteen)</option>
                     </select>
                     <br><br>
                     <input type="submit" value="Recommend similar songs">
-                  </form>
+                </form>
 
                 {% endblock %}
             </article>
     
             <article>
                 <h3>You selected - {{ song }}</h3>
+                <hr>
+                <h3>Songs closest to your selection are -</h3>
                 {% for recommend in recommendations %}
                 <p>{{ recommend }}</p>
                 {% endfor %}
