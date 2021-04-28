@@ -9,21 +9,27 @@ from os import path
 def create_app():
 
     app = Flask(__name__)
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite3'
-    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+    # app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite3'
+    # app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
-    DB = SQLAlchemy(app)
+    # DB = SQLAlchemy(app)
 
     @app.route("/", methods=['POST', 'GET'])
     def root(): 
         """Base View"""
 
         """Unzip files if they dont exist"""
-        if not path.exists('tracks.csv'):
-            zip = ZipFile('tracks.csv.zip')
+        # if not path.exists('tracks.csv'):
+        #     zip = ZipFile('tracks.csv.zip')
+        #     zip.extractall()
+        # else:
+        #     print("tracks.zip exists")
+
+        if not path.exists('df_merged.csv'):
+            zip = ZipFile('df_merged.csv.zip')
             zip.extractall()
         else:
-            print("tracks.zip exists")
+            print("df_merged.zip exists")
 
         if not path.exists('NearestNeighborModel'):
             zip = ZipFile('NearestNeighborModel.zip')
@@ -49,7 +55,7 @@ def create_app():
         recommendations = []
 
         #  load the tracks.csv into a Pandas dataframe
-        df = pd.read_csv('tracks.csv', parse_dates=['release_date'])
+        df = pd.read_csv('df_merged.csv', parse_dates=['release_date'])
         # drop nulls
         df.dropna(inplace=True)
 
@@ -60,7 +66,10 @@ def create_app():
         song_name = song_row['name'].values[0]
 
         # drop columns in preparation for model call
-        song_row = song_row.drop(columns= ['id', 'name', 'artists', 'id_artists', 'release_date'])
+        # song_row = song_row.drop(columns= ['id', 'name', 'Artist', 'id_artists', 'release_date'])
+
+        # Pass the dataframe to the wrangle function given by unit4
+        song_row = keep_wanted_columns(song_row)
         
         # Loading and running model
         NN = joblib.load('NearestNeighborModel')
@@ -70,13 +79,21 @@ def create_app():
         for index in neigh_index:
             recommendations = df['name'].iloc[index].values.tolist()
 
+        recommendations = recommendations[1:]
+
         # return selected song name and recommendations 
         return song_name, recommendations
 
     @app.route("/reset")
     def reset():
-        os.remove('tracks.csv')
+        os.remove('df_merged.csv')
         os.remove('NearestNeighborModel')
         return "Reset the models"
-        
+
+
+    def keep_wanted_columns(df):
+        df_dropped = df[['popularity', 'explicit', 'danceability', 'energy', 'key', 'loudness', 'mode', 'speechiness', 'acousticness', 'instrumentalness', 'liveness', 'valence', 'tempo', 'time_signature']]
+        #drop(columns= ['Artist', 'name', 'SLink', 'Lyric', 'Idiom', 'id_artists', 'id', 'release_date'])
+        return df_dropped
+
     return app
