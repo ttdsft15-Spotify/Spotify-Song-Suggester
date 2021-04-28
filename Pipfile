@@ -5,7 +5,6 @@ name = "pypi"
 
 [packages]
 pandas = "*"
-jupyter = "*"
 sklearn = "*"
 spacy = "*"
 flask = "*"
@@ -17,6 +16,7 @@ joblib = "*"
 gensim = "*"
 matplotlib = "*"
 numpy = "*"
+notebook = "*"
 
 [dev-packages]
 
