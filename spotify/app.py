@@ -37,34 +37,41 @@ def create_app():
     @app.route("/suggest", methods=['POST', 'GET'])
     def suggest():
         recommendations = []
-        song_selected= request.form['songs']
+        selected_song_index= request.form['songs']
 
-        recommendations = make_recommendations(song_selected)
+        song_name, recommendations = make_recommendations(selected_song_index)
 
-        return render_template("index.html", recommendations=recommendations, song=song_selected)
+        return render_template("index.html", recommendations=recommendations, song=song_name)
 
 
     """This function will call the model and make predictions"""
-    def make_recommendations(song_name):
+    def make_recommendations(selected_song_index):
         recommendations = []
 
-        # use the tracks.csv to get song details
+        #  load the tracks.csv into a Pandas dataframe
         df = pd.read_csv('tracks.csv', parse_dates=['release_date'])
+        # drop nulls
         df.dropna(inplace=True)
 
-        song_row = df[(df.index == int(song_name))]
-        print(type(song_row))
+        # use the tracks.csv to get song details based on the song index
+        song_row = df[(df.index == int(selected_song_index))]
+
+        # get the name of the song as it is displayed in the dataframe
+        song_name = song_row['name'].values[0]
+
+        # drop columns in preparation for model call
         song_row = song_row.drop(columns= ['id', 'name', 'artists', 'id_artists', 'release_date'])
         
         # Loading and running model
         NN = joblib.load('NearestNeighborModel')
         neigh_dist, neigh_index = NN.kneighbors(song_row)
 
+        # get the list of song recommendations from the model
         for index in neigh_index:
-            recommendations.append(df['name'].iloc[index].values)
-            print(df['name'].iloc[index].values)
+            recommendations = df['name'].iloc[index].values.tolist()
 
-        return recommendations
+        # return selected song name and recommendations 
+        return song_name, recommendations
 
     @app.route("/reset")
     def reset():
