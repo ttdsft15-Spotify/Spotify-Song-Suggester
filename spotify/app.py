@@ -1,8 +1,6 @@
 from flask import Flask, redirect, render_template, request
-from flask_sqlalchemy import SQLAlchemy
 import joblib
 import pandas as pd
-from zipfile import ZipFile
 import os.path
 from os import path
 
@@ -25,9 +23,9 @@ def create_app():
         recommendations = []
         selected_song_index= request.form['songs']
 
-        song_name, recommendations = make_recommendations(selected_song_index)
+        song_name, artist, recommendations, artists = make_recommendations(selected_song_index)
 
-        return render_template("index.html", recommendations=recommendations, song=song_name)
+        return render_template("index.html", recommendations=recommendations, song=song_name, artists=artists, artist=artist)
 
 
     """This function will call the model and make predictions"""
@@ -44,6 +42,7 @@ def create_app():
 
         # get the name of the song as it is displayed in the dataframe
         song_name = song_row['name'].values[0]
+        artist = song_row['Artist'].values[0]
 
         # drop columns in preparation for model call
         # song_row = song_row.drop(columns= ['id', 'name', 'Artist', 'id_artists', 'release_date'])
@@ -57,12 +56,16 @@ def create_app():
 
         # get the list of song recommendations from the model
         for index in neigh_index:
+            print(index)
             recommendations = df['name'].iloc[index].values.tolist()
+            artists = df['Artist'].iloc[index].values.tolist()
+
 
         recommendations = recommendations[1:]
+        artists = artists[1:]
 
         # return selected song name and recommendations 
-        return song_name, recommendations
+        return song_name, artist, recommendations, artists
 
 
     def keep_wanted_columns(df):
