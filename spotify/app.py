@@ -17,26 +17,6 @@ def create_app():
     @app.route("/", methods=['POST', 'GET'])
     def root(): 
         """Base View"""
-
-        """Unzip files if they dont exist"""
-        # if not path.exists('tracks.csv'):
-        #     zip = ZipFile('tracks.csv.zip')
-        #     zip.extractall()
-        # else:
-        #     print("tracks.zip exists")
-
-        if not path.exists('df_merged.csv'):
-            zip = ZipFile('df_merged.csv.zip')
-            zip.extractall()
-        else:
-            print("df_merged.zip exists")
-
-        if not path.exists('NearestNeighborModel'):
-            zip = ZipFile('NearestNeighborModel.zip')
-            zip.extractall()
-        else:
-            print('NearestNeighborModel exists')
-
         return render_template("index.html")
 
 
@@ -55,7 +35,7 @@ def create_app():
         recommendations = []
 
         #  load the tracks.csv into a Pandas dataframe
-        df = pd.read_csv('df_merged.csv', parse_dates=['release_date'])
+        df = pd.read_csv('./data/df_with_topics.csv', parse_dates=['release_date'])
         # drop nulls
         df.dropna(inplace=True)
 
@@ -72,7 +52,7 @@ def create_app():
         song_row = keep_wanted_columns(song_row)
         
         # Loading and running model
-        NN = joblib.load('NearestNeighborModel')
+        NN = joblib.load('./data/NearestNeighborModelWithTopics')
         neigh_dist, neigh_index = NN.kneighbors(song_row)
 
         # get the list of song recommendations from the model
@@ -84,16 +64,12 @@ def create_app():
         # return selected song name and recommendations 
         return song_name, recommendations
 
-    @app.route("/reset")
-    def reset():
-        os.remove('df_merged.csv')
-        os.remove('NearestNeighborModel')
-        return "Reset the models"
-
 
     def keep_wanted_columns(df):
-        df_dropped = df[['popularity', 'explicit', 'danceability', 'energy', 'key', 'loudness', 'mode', 'speechiness', 'acousticness', 'instrumentalness', 'liveness', 'valence', 'tempo', 'time_signature']]
-        #drop(columns= ['Artist', 'name', 'SLink', 'Lyric', 'Idiom', 'id_artists', 'id', 'release_date'])
+        df_dropped = df[['popularity', 'explicit', 'danceability', 'energy', 'key', 'loudness', 'mode', 'speechiness', 'acousticness',
+        'instrumentalness', 'liveness', 'valence', 'tempo', 'time_signature', 'new_topic_name_Existential', 'new_topic_name_Religion',
+            'new_topic_name_Gangsta', 'new_topic_name_Poppy','new_topic_name_Love']]
+
         return df_dropped
 
     return app
