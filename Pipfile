@@ -5,19 +5,18 @@ name = "pypi"
 
 [packages]
 pandas = "*"
-notebook = "*"
-tensorflow = "*"
+jupyter = "*"
 sklearn = "*"
 spacy = "*"
 flask = "*"
 flask-sqlalchemy = "*"
+python-dotenv = "*"
 requests = "*"
 gunicorn = "*"
 joblib = "*"
 gensim = "*"
-pyldavis = "*"
 matplotlib = "*"
-numpy = "==1.19.2"
+numpy = "*"
 
 [dev-packages]
 
