@@ -14,19 +14,52 @@
             </div>
         </nav>
         <div style="padding: 3em 1em;">
-            <h1>Spotify Song Recommendation Engine</h1>
             <article class="flex one">
                 {% block content %}
-
                 <form action="/search" method="POST">
-                    <label for="songs">Choose a Song:</label>
-                    <input type="text" id="song" name="song">
+                    <label for="song">Choose a Song:</label>
+                    <input type="text" id="song" name="song" placeholder="Enter your song here">
                     <br><br>
-                    <input type="submit" value="Recommend similar songs">
+                    <input type="submit" value="Search">
                 </form>
-
                 {% endblock %}
             </article>
+
+            <hr>
+
+            <article>
+                <form action="/search_suggest" method="POST">
+                    <select name="selection_id" id="selection_id">
+                        {% for result in results %}
+                            <option value={{result[0]}}>{{ result[1] }}( {{ result[2] }})</option>
+                        {% endfor %}
+                    </select>
+                    <input type="submit" value="Recommend similar songs">    
+                </form>
+            </article>
+
+            <hr>
+            
+            {% if song %} 
+                <article>
+                    <h1>You selected "{{ song }}" by "{{ artist }}" </h1>
+                    <h3>Songs closest to your selection are -</h3>
+                    <table>
+                        <tr>
+                            <th>SONG</th>
+                            <th>ARTIST</th>
+                        </tr>
+                    {% for i in recommendations %}
+                            {% set item_1 = recommendations[loop.index-1] %}
+                            {% set item_2 = artists[loop.index-1] %}
+                            <tr>
+                                <td> {{ item_1 }} </td>
+                                <td>  {{ item_2 }} </td>
+                            </tr>
+                        {% endfor %}
+                    </table>                
+                </article>            
+            {% endif %}
 
 
         </div>
