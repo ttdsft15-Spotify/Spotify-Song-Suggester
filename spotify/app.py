@@ -45,6 +45,7 @@ def create_app():
     """This function will call the model and make predictions"""
     def make_recommendations(selected_song_index):
         recommendations = []
+        artists = []
 
         #  load the tracks.csv into a Pandas dataframe
         df = pd.read_csv('./data/df_with_topics.csv', parse_dates=['release_date'])
@@ -69,10 +70,10 @@ def create_app():
         neigh_dist, neigh_index = NN.kneighbors(song_row)
 
         # get the list of song recommendations from the model
-        for index in neigh_index:
+        for index in neigh_index[0]:
             print(index)
-            recommendations = df['name'].iloc[index].values.tolist()
-            artists = df['Artist'].iloc[index].values.tolist()
+            recommendations.append(df['name'].iloc[index].title())
+            artists.append(df['Artist'].iloc[index].title())
 
 
         recommendations = recommendations[1:]
