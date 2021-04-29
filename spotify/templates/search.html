@@ -29,9 +29,9 @@
 
             <article>
                 <form action="/search_suggest" method="POST">
-                    <select name="selection_id" id="selection_id">
+                    <select style="text-transform: capitalize;" name="selection_id" id="selection_id">
                         {% for result in results %}
-                            <option value={{result[0]}}>{{ result[1] }}( {{ result[2] }})</option>
+                            <option value={{result[0]}}>{{ result[1] }} ( {{ result[2] }} )</option>
                         {% endfor %}
                     </select>
                     <input type="submit" value="Recommend similar songs">    
@@ -39,7 +39,7 @@
             </article>
 
             <hr>
-            
+
             {% if song %} 
                 <article>
                     <h1>You selected "{{ song }}" by "{{ artist }}" </h1>

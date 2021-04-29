@@ -85,8 +85,8 @@ def create_app():
         song_row = df[(df.index == int(selected_song_index))]
 
         # get the name of the song as it is displayed in the dataframe
-        song_name = song_row['name'].values[0]
-        artist = song_row['Artist'].values[0]
+        song_name = song_row['name'].values[0].title()
+        artist = song_row['Artist'].values[0].title()
 
         # drop columns in preparation for model call
         # song_row = song_row.drop(columns= ['id', 'name', 'Artist', 'id_artists', 'release_date'])
