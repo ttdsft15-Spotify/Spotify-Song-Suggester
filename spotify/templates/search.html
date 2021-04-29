@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Spotify Recommendation</title>
+        <link rel="stylesheet" href="https://unpkg.com/picnic" />
+    </head>
+    <body>
+        <nav>
+            <div class="menu">
+                <a href="/" class="button warning">Home</a>
+                <a href="/search" class="button">Search</a>
+            </div>
+        </nav>
+        <div style="padding: 3em 1em;">
+            <h1>Spotify Song Recommendation Engine</h1>
+            <article class="flex one">
+                {% block content %}
+
+                <form action="/search" method="POST">
+                    <label for="songs">Choose a Song:</label>
+                    <input type="text" id="song" name="song">
+                    <br><br>
+                    <input type="submit" value="Recommend similar songs">
+                </form>
+
+                {% endblock %}
+            </article>
+
+
+        </div>
+    </body>
+</html>

@@ -20,16 +20,26 @@ def create_app():
     # create a SQLITE connection
     conn = sqlite3.connect("db.sqlite3")
 
-    # upload the df to a table
-    df.to_sql("merged", conn)
+    # check to see if the table already exists
+    count = conn.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='merged';")
 
-
-
+    if count == 0:
+        # upload the df to a table
+        df.to_sql("merged", conn)
 
     @app.route("/", methods=['POST', 'GET'])
     def root(): 
         """Base View"""
         return render_template("index.html")
+
+
+    @app.route("/search", methods=['POST', 'GET'])
+    def search(): 
+        """Search View"""
+        song = request.form['song']
+        print(song)
+
+        return render_template("search.html")
 
 
     @app.route("/suggest", methods=['POST', 'GET'])
