@@ -5,18 +5,19 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Spotify Recommendation</title>
         <link rel="stylesheet" href="https://unpkg.com/picnic" />
+        <link rel="shortcut icon" href="{{ url_for('static', filename='icon.png') }}">        
     </head>
     <body>
         <nav>
             <div class="menu">
-                <a href="/" class="button warning">Home</a>
-                <a href="/search" class="button">Search</a>
+                <a href="/" class="button">Home</a>
+                <a href="/mvp" class="button warning">MVP</a>
             </div>
         </nav>
         <div style="padding: 3em 1em;">
             <article class="flex one">
                 {% block content %}
-                <form action="/search" method="POST">
+                <form action="/" method="POST">
                     <label for="song">Choose a Song:</label>
                     <input type="text" id="song" name="song" placeholder="Enter your song here">
                     <br><br>
@@ -42,7 +43,7 @@
 
             {% if song %} 
                 <article>
-                    <h1>You selected "{{ song }}" by "{{ artist }}" </h1>
+                    <h1>You selected "{{ song }}" by {{ artist }} </h1>
                     <h3>Songs closest to your selection are -</h3>
                     <table>
                         <tr>

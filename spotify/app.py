@@ -33,23 +33,27 @@ def create_app():
     conn.close
 
     @app.route("/", methods=['POST', 'GET'])
-    def root(): 
-        """Base View"""
-        return render_template("index.html")
-
-
-    @app.route("/search", methods=['POST', 'GET'])
     def search(): 
         """Search View"""
 
-        song = request.form.get('song', False)
+        # Get the song string enterede by the user
+        song = request.form.get('song', 'asfgergdfgsdfgol')
+
+        # Prepare the song string for the query
         song = "%" + str(song) + "%"
 
         # create a SQLITE connection
         conn = sqlite3.connect('db.sqlite3')
         curs = conn.cursor()
         results = curs.execute("SELECT [index], name, Artist FROM merged WHERE name like (?) ", (song,)).fetchall()
+
         return render_template("search.html", results=results)
+
+    @app.route("/mvp", methods=['POST', 'GET'])
+    def root(): 
+        """Base View"""
+        return render_template("index.html")
+
 
     @app.route("/search_suggest", methods=['POST', 'GET'])
     def search_suggest():
