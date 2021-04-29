@@ -3,14 +3,28 @@ import joblib
 import pandas as pd
 import os.path
 from os import path
+from flask_sqlalchemy import SQLAlchemy
+import sqlite3
 
 def create_app():
 
     app = Flask(__name__)
-    # app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite3'
-    # app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite3'
+    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
-    # DB = SQLAlchemy(app)
+    DB = SQLAlchemy(app)
+
+    # Read the CSV file into a df
+    df = pd.read_csv('./data/df_with_topics.csv', parse_dates=['release_date'])
+    
+    # create a SQLITE connection
+    conn = sqlite3.connect("db.sqlite3")
+
+    # upload the df to a table
+    df.to_sql("merged", conn)
+
+
+
 
     @app.route("/", methods=['POST', 'GET'])
     def root(): 
